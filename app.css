@@ -68,6 +68,8 @@ select {
     text-align: center;
     position: absolute;
     bottom: 0;
+    right: 0;
+    margin: 2px;
 }
 
 .die-result {
@@ -83,7 +85,7 @@ select {
 }
 
 .roll {
-    flex: 1 0 auto;
+    flex: 1 0 0;
     margin: 1rem;
     padding: 1rem;
     background-color: darkblue;
