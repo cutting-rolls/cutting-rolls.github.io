@@ -1,2 +1,2 @@
 # cutting-rolls.github.io
-Cutting Rolls Bardic insults for Viscous Mockery and Cutting Words
+Cutting Rolls: Random Bardic insult generator for Vicious Mockery and Cutting Words. D&D 5e
