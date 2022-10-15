@@ -3,7 +3,7 @@
 // 10/13/2022
 const SPEECH_OK = 'speechSynthesis' in window;
 const THREE_DICE = 3;
-let result = '';
+let insult = '';
 
 function init() {
     const btnRoll = document.getElementById('btn-roll');
@@ -40,19 +40,17 @@ function init() {
 }
 
 function handleRollClick() {
-    const btnRepeat = document.getElementById('btn-repeat');
     const output = document.getElementById('output');
     output.value = '';
-    result = '';
+    insult = '';
     for (let i = 0; i < THREE_DICE; i++) {
         const rollVal = roll(parts[i].length);
         document.getElementById('d' + (i + 1)).innerText = rollVal;
         output.value += `${i+1}. Rolled ${rollVal} (on a D${parts[i].length}).\r\n`;
-        result += parts[i][rollVal-1];
+        insult += parts[i][rollVal-1];
     }
-    output.value += result;
+    output.value += insult;
     if (SPEECH_OK) {
-        btnRepeat.removeAttribute('disabled');
         speak();
     } else {
         output.value += "No Speech, wah wah."
@@ -60,44 +58,34 @@ function handleRollClick() {
 }
 
 function roll(sides) {
-    let result = Math.floor(Math.random() * sides) + 1;
-    return result;
+    let rollResult = Math.floor(Math.random() * sides) + 1;
+    return rollResult;
 }
 
 function speak() {
+    const btnRoll = document.getElementById('btn-roll');
+    const btnRepeat = document.getElementById('btn-repeat');
     try {
-        // const btnRoll = document.getElementById('btn-roll');
-        // const btnRepeat = document.getElementById('btn-repeat');
-        // btnRoll.innerHTML = 'Cancel';
-        // btnRepeat.innerHTML = 'Cancel';
+        btnRoll.setAttribute('disabled', 'disabled');
+        btnRepeat.setAttribute('disabled', 'disabled');
         const idxVoice = document.getElementById('v-options').value;
         let msg = new SpeechSynthesisUtterance();
         const voices = window.speechSynthesis.getVoices();
         msg.voice = voices[idxVoice];
         msg.pitch = parseFloat(document.getElementById('v-pitch').value);
-        msg.text = result;
+        msg.text = insult;
         msg.onend = (e) => {
-            console.log('completed seconds: ' + e.elapsedTime);
-            // setTimeout(() => {
-            //     btnRoll.innerHTML = 'Roll';
-            //     btnRoll.onclick = () => {
-            //         handleRollClick();
-            //     }
-            //     btnRepeat.innerHTML = 'Repeat';
-            //     btnRepeat.onclick = () => {
-            //         speak();
-            //     }
-            // }, 250);
+            setTimeout(() => {
+                btnRepeat.removeAttribute('disabled');
+                btnRoll.removeAttribute('disabled');
+            }, 5);
+            console.log('completed in: ' + e.elapsedTime);
         }
-        // btnRoll.onclick = () => {
-        //     window.speechSynthesis.cancel();
-        // }
-        // btnRepeat.onclick = () => {
-        //     window.speechSynthesis.cancel();
-        // }
         window.speechSynthesis.speak(msg);
     } catch (error) {
         console.error(error);
+        btnRepeat.removeAttribute('disabled');
+        btnRoll.removeAttribute('disabled');
     }
 }
 
@@ -120,16 +108,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
 });
 // data
 const partA = [
-    'I regret to inform you that ',
-    'In case you did not know, ',
-    'You do not possess a high enough intelligence score to comprehend this; however, ',
-    'I asked every person whom has ever seen you unclothed if they knew why ',
     'Hey... Dumb ass, ',
-    'Your immense grace and beauty is limited only by the fact that ',
-    'Look here you blithering idiot, your village has been looking for you, and they want you to know that ',
-    'Oh my poor dear, bless your heart, but ',
-    'I am not able to phrase this monosyllabically enough for you to glean the meaning; regardless, ',
-    'It is really not your fault that '
+    'I relish in the fact that I can inform you that ',
+    'In case you were never told this in, let me fill you in... ',
+    'You do not possess the minimum required intelligence score to comprehend this... however, ',
+    'I took an embarrassingly small survey of every single person whom has ever seen you unclothed, asking them if they knew why ',
+    'Your immeasurable grace and beauty is hindered only by the unfortunate fact that ',
+    'Listen here idiot, your village has been without you for a fortnight, and they want you to know that ',
+    'Oh my poor dear, bless your heart... ',
+    'I will try to phrase this simply enough for you to understand... ',
+    'I believe it truly is really all your fault that '
 ];
 const partB = [
     'you are ',
@@ -144,15 +132,15 @@ const partB = [
     'your weapons are '
 ];
 const partC = [
-    'no longer welcome here due to you getting your particular brand of stupid all over the place.',
-    'currently looking for ways to be legally disassociated with yourself.',
-    'upset that they chose not drown you when they had the opportunity.',
-    'broken, forged by buffoons, of shoddy workmanship and poor quality.',
-    'gross. Really, really, gross.',
-    'a common Bavarian whore. Hooker, prostitute, slut for money!',
-    'a big turd.',
-    'disappointed in the type of person you are, your actions are truly an embarrassment.',
     'dumb.',
-    'a waste of time and not worth a cantrip.'
+    'a big... steaming... turd.',
+    'no longer welcome here due to you getting your particular brand of stupid all over the place.',
+    'currently looking for ways to be physically, legally and emotionally disassociated with you.',
+    'upset that they chose not drown you in that muddy puddle when they had the opportunity.',
+    'of shoddy workmanship and poor quality... likely forged by a drunk apprentice out of spite.',
+    'gross... Like really, very gross.',
+    'a common Bavarian whore... hooker... prostitute... slut for money!',
+    'disappointed in the type of person you pretend to be, in all your actions and trials, you are truly an embarrassment to all life.',
+    'a waste of my time and not worth the effort of a cantrip.'
 ];
 const parts = [partA, partB, partC];
