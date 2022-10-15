@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 const partA = [
     'Hey... Dumb ass, ',
     'I relish in the fact that I can inform you that ',
-    'In case you were never told this in, let me fill you in... ',
+    'In case you were never told this as a child, let me fill you in... ',
     'You do not possess the minimum required intelligence score to comprehend this... however, ',
     'I took an embarrassingly small survey of every single person whom has ever seen you unclothed, asking them if they knew why ',
     'Your immeasurable grace and beauty is hindered only by the unfortunate fact that ',
